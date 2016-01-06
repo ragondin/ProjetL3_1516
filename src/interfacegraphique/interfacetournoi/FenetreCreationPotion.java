@@ -113,7 +113,7 @@ public class FenetreCreationPotion extends JFrame {
     	JLabel labelNom = new JLabel("Nom de la potion");
     	panelNom.add(labelNom);    	
 
-    	valueNom = new JTextField();
+    	valueNom = new JTextField("Potion");
     	valueNom.setPreferredSize(new Dimension(150,28));
     	panelNom.add(valueNom);
     	
@@ -228,13 +228,15 @@ public class FenetreCreationPotion extends JFrame {
 			erreurMessage.add("Le nom saisi est invalide.");
 		}
 
-		try {
-			caracts = getCaracts();
-			
-		} catch (CaractNonValideException e) {
-			validValues = false;
-			erreurMessage.add("Les caracteristiques suivantes ne sont pas valides : <br>"
-					+ e.afficheCaracts());					
+		if(radioCaract.isSelected()) {
+			try {
+				caracts = getCaracts();
+				
+			} catch (CaractNonValideException e) {
+				validValues = false;
+				erreurMessage.add("Les caracteristiques suivantes ne sont pas valides : <br>"
+						+ e.afficheCaracts());					
+			}
 		}
 		
 		try {
@@ -248,7 +250,11 @@ public class FenetreCreationPotion extends JFrame {
 		}
 		
 		if (validValues) {
-			ihmTournoi.lancePotion(nom, caracts, position);
+			if(radioCaract.isSelected()) {
+				ihmTournoi.lancePotion(nom, caracts, position);
+			} else {
+				ihmTournoi.lancePotionTeleportation(nom, position);
+			}
 		} else {
 			afficheMessageErreur(erreurMessage);
 		}

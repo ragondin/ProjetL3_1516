@@ -22,6 +22,7 @@ import interfacegraphique.interfacetournoi.FenetreCreationPotion;
 import logger.LoggerProjet;
 import serveur.element.Caracteristique;
 import serveur.element.Potion;
+import serveur.element.PotionTP;
 import serveur.vuelement.VueElement;
 
 /**
@@ -226,6 +227,24 @@ public class IHMTournoi extends IHM {
 		} else {
 			try {
 				arene.lancePotion(new Potion(nom, "Arene", ht), position, motDePasse);
+			} catch (RemoteException e) {
+				erreurConnexion(e);
+			}
+		}
+	}
+	
+	/**
+	 * Lance une potion de teleportation sur le serveur.
+	 * @param nom nom de la potion
+	 * @param ht caracteristiques de la potion
+	 * @param position position de la potion
+	 */
+	public void lancePotionTeleportation(String nom, Point position) {
+		if (!motDePasseOK) {
+			demandeMotDePasse();
+		} else {
+			try {
+				arene.lancePotionTP(new PotionTP(nom, "Arene"), position, motDePasse);
 			} catch (RemoteException e) {
 				erreurConnexion(e);
 			}

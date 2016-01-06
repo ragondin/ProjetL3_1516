@@ -13,6 +13,7 @@ import serveur.element.Caracteristique;
 import serveur.element.Monstre;
 import serveur.element.Personnage;
 import serveur.element.Potion;
+import serveur.element.PotionTP;
 import serveur.vuelement.VuePersonnage;
 import serveur.vuelement.VuePotion;
 import utilitaires.Constantes;
@@ -187,6 +188,23 @@ public class AreneTournoi extends Arene {
 			logElements();
 		} else {
 			logger.info("Tentative de lancement de potion avec mot de passe errone");
+		}	
+	}
+
+	@Override
+	public synchronized void lancePotionTP(PotionTP potion, Point position, String motDePasse) throws RemoteException {
+		if (motDePasse.equals(motDePasse)) {
+			int refRMI = alloueRefRMI();
+			VuePotion vuePotion = new VuePotion(potion, position, refRMI);
+			
+			// ajout a la liste
+			potions.put(refRMI, vuePotion);
+			
+			logger.info(Constantes.nomClasse(this), "Lancement de la potion de teleportation " + 
+					vuePotion.getElement().getNomGroupe() + " (" + refRMI + ")");
+			logElements();
+		} else {
+			logger.info("Tentative de lancement de potion de teleportation avec mot de passe errone");
 		}	
 	}
 

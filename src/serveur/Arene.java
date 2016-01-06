@@ -1177,6 +1177,9 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	@Override
 	public void lancePotion(Potion potion, Point position, String motDePasse) throws RemoteException {}
 
+	@Override
+	public void lancePotionTP(PotionTP potion, Point position, String motDePasse) throws RemoteException {}
+
 	public class ComparatorVuePersonnage implements Comparator<VuePersonnage> {
 
 		@Override

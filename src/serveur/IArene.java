@@ -10,6 +10,7 @@ import serveur.element.Caracteristique;
 import serveur.element.Element;
 import serveur.element.Personnage;
 import serveur.element.Potion;
+import serveur.element.PotionTP;
 import serveur.vuelement.VueElement;
 
 /**
@@ -275,6 +276,16 @@ public interface IArene extends Remote {
 	 * @throws RemoteException
 	 */
 	public void lancePotion(Potion potion, Point position, String motDePasse) throws RemoteException;
+
+	/**
+	 * Ajoute une potion de teleportation dans l'arene a n'importe quel moment 
+	 * en mode tournoi.
+	 * @param potionTP potion de teleportation
+	 * @param position position de la potion
+	 * @param motDePasse mot de passe administrateur
+	 * @throws RemoteException
+	 */
+	public void lancePotionTP(PotionTP potion, Point position, String motDePasse) throws RemoteException;
 	
 }
 
