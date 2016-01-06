@@ -89,7 +89,7 @@ public class Constantes {
 	/**
 	 * Intervalle de reduction
 	 */
-	public static final int INTERVALLE_OFFSET = 120000;
+	public static final int INTERVALLE_OFFSET = 10000;
 	
 	/**
 	 * Couleur sur l'IHM pour les personnages qui sont morts.

@@ -12,9 +12,12 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.Map.Entry;
 
@@ -223,6 +226,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 				reduireArene();
 			}
 			verifPersoBornes(personnages);
+			supprimePotionsHorsBornes(potions);
 			
 			try {
 				long dureeTour = System.currentTimeMillis() - begin;
@@ -1122,7 +1126,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		for (Entry<Integer, VuePersonnage> entry : lsperso.entrySet())
 		{
 			VuePersonnage perso = entry.getValue();
-			boolean ok = verifDansBorne(perso.getPosition());
+			boolean ok = Calculs.estDansArene(perso.getPosition());
 			if (! ok)
 			{
 				// décaler le personnage sur la position la plus proche dans l'arène
@@ -1144,20 +1148,30 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 			}
 		}
 	}
+
 	
 	/**
-	 * Verifie UN personnage
+	 *  vérifie que chaque potion est dans l'arène JOUABLE
+	 * @param lspotion liste des potions
 	 */
-	private boolean verifDansBorne(Point p)
+	private void supprimePotionsHorsBornes(Hashtable<Integer, VuePotion> lspotion)
 	{
-		return
-			(p.x > Constantes.XMIN_ARENE + getOffset()) &&
-			(p.x < Constantes.XMAX_ARENE - getOffset()) &&
-			(p.y > Constantes.YMIN_ARENE + getOffset()) &&
-			(p.y < Constantes.YMAX_ARENE - getOffset());
+		VuePotion p = null;
+		Set<Entry<Integer, VuePotion>> sentry = lspotion.entrySet();
+		Iterator<Map.Entry<Integer, VuePotion>> it = sentry.iterator();
+		
+		
+		while (it.hasNext())
+		{
+			p = it.next().getValue();
+			
+			// si la potion est hors-bornes, supprimer
+			if (! Calculs.estDansArene(p.getPosition()))
+				it.remove();
+		}
 	}
 
-
+	
 
 	/**************************************************************************
 	 * Specifique a l'arene tournoi.
