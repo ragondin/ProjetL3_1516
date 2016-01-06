@@ -563,7 +563,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	 * Verifie les conditions de fin de partie.
 	 */
 	protected void verifierPartieFinie() {
-		partieFinie = NB_TOURS > 0 || tour > NB_TOURS;
+		partieFinie = NB_TOURS > 0 && tour > NB_TOURS;
 	}
 	
 	@Override
