@@ -262,11 +262,7 @@ public class IHMTournoi extends IHM {
 		if (!motDePasseOK) {
 			demandeMotDePasse();
 		} else {
-			//try {
-				LanceMonstre.main(new String[0]);
-			//} catch (RemoteException e) {
-			//	erreurConnexion(e);
-			//}
+			LanceMonstre.main(new String[]{port + "", ipArene, position.x + "", position.y + ""});
 		}
 	}
 	

@@ -28,7 +28,7 @@ public class Monstre extends Personnage {
 	 * Construit un monstre
 	 */
 	public Monstre() {
-		super("Monstre", "Serveur", CARACTS);
+		super("Monstre", "Arene", CARACTS);
 	}
 
 	/**
