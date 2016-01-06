@@ -238,7 +238,22 @@ public interface IArene extends Remote {
 	public boolean deplace(int refRMI, Point objectif) throws RemoteException;
 	
 	
+	/**
+	 * Soigne le personnage passe en parametre
+	 * @param refRMI reference RMI du personnage se soignant
+	 * @return vrai si l'action a bien eu lieu, faux sinon
+	 * @throws RemoteException
+	 */
+	public boolean lanceAutoSoin(int refRMI) throws RemoteException;
 
+	/**
+	 * 
+	 * @param refRMI reference RMI du personnage executant l'action
+	 * @param refRMIAdv reference RMI du personnage dont on veut les caracteristiques
+	 * @return hashmap avec les caracteristiques et leur valeur
+	 * @throws RemoteException
+	 */
+	public HashMap<Caracteristique,Integer> lanceClairvoyance(int refRMI, int refRMIAdv) throws RemoteException;
 	
 
 	/**************************************************************************
