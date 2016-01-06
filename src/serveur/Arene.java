@@ -663,11 +663,15 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		List<VuePersonnage> classement = new ArrayList<VuePersonnage>();
 		
 		for(VuePersonnage vue : this.personnages.values()) {
-			classement.add(vue);
+			if(!(vue.getElement() instanceof Monstre)) { // ne pas ajouter les monstres
+				classement.add(vue);
+			}
 		}
 		
 		for(VuePersonnage vuePers : personnagesMorts) {
-			classement.add(vuePers);
+			if(!(vuePers.getElement() instanceof Monstre)) { // ne pas ajouter les monstres
+				classement.add(vuePers);
+			}
 		}
 		
 		Collections.sort(classement, new ComparatorVuePersonnage());
