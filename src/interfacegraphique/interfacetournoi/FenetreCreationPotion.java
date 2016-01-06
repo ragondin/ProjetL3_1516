@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -46,6 +48,12 @@ public class FenetreCreationPotion extends JFrame {
 	private JTextField valueNom;
 	
 	/**
+	 * Vrai si le nom de la potion a ete change. 
+	 * Si oui, on ne le modifie pas automatiquement. 
+	 */
+	private boolean nomChange = false;
+	
+	/**
 	 * Bouton radio permettant de creer une potion "standard" 
 	 * (caracteristiques).
 	 */
@@ -55,6 +63,11 @@ public class FenetreCreationPotion extends JFrame {
 	 * Bouton radio permettant de creer une potion de teleportation.
 	 */
 	private JRadioButton radioTeleportation;
+	
+	/**
+	 * Bouton radio permettant de creer un monstre.
+	 */
+	private JRadioButton radioMonstre;
 	
 	/**
 	 * Liste des panels de saisie des caracteristiques.
@@ -115,6 +128,22 @@ public class FenetreCreationPotion extends JFrame {
 
     	valueNom = new JTextField("Potion");
     	valueNom.setPreferredSize(new Dimension(150,28));
+    	
+    	// detecter les changements
+    	valueNom.addKeyListener(new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				nomChange = true;
+ 			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {}
+		});
+    	
     	panelNom.add(valueNom);
     	
         getContentPane().add(panelNom); 
@@ -125,14 +154,17 @@ public class FenetreCreationPotion extends JFrame {
         ButtonGroup groupeType = new ButtonGroup();
         radioCaract = new JRadioButton("Caracteristiques");
         radioTeleportation = new JRadioButton("Teleportation");
+        radioMonstre = new JRadioButton("Monstre");
         
         radioCaract.setSelected(true);
         
         groupeType.add(radioCaract);
         groupeType.add(radioTeleportation);
+        groupeType.add(radioMonstre);
         
         panelType.add(radioCaract);
         panelType.add(radioTeleportation);
+        panelType.add(radioMonstre);
         
         getContentPane().add(panelType);
 
@@ -147,24 +179,37 @@ public class FenetreCreationPotion extends JFrame {
         	getContentPane().add(cPanel);       
         }
         
-        // activer ou desactiver les panels de caracteristiques
+        // activer ou desactiver les panels de caracteristiques et changer le nom
         radioCaract.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				for(SaisieCaracteristique cPanel : caractPanels) {
-		        	cPanel.setEnabled(true);     
-		        }
+				setActiveCaracteristiques(true);
+				
+				if(!nomChange) {
+					valueNom.setText("Potion");
+				}
 			}
 		});
         
         radioTeleportation.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				for(SaisieCaracteristique cPanel : caractPanels) {
-		        	cPanel.setEnabled(false);     
-		        }
+				setActiveCaracteristiques(false);
+				
+				if(!nomChange) {
+					valueNom.setText("Teleportation");
+				}
+			}
+		});
+        
+        radioMonstre.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setActiveCaracteristiques(false);
+				
+				if(!nomChange) {
+					valueNom.setText("Monstre");
+				}
 			}
 		});
 
@@ -205,6 +250,16 @@ public class FenetreCreationPotion extends JFrame {
         getContentPane().add(panelBouton);
 
         pack();
+    }
+    
+    /**
+     * Active ou desactive tous les panels de caracteristiques.
+     * @param active vrai si a activer, faux sinon
+     */
+    private void setActiveCaracteristiques(boolean active) {
+    	for(SaisieCaracteristique cPanel : caractPanels) {
+        	cPanel.setEnabled(active);     
+        }
     }
     
     /**
@@ -252,8 +307,12 @@ public class FenetreCreationPotion extends JFrame {
 		if (validValues) {
 			if(radioCaract.isSelected()) {
 				ihmTournoi.lancePotion(nom, caracts, position);
-			} else {
+				
+			} else if(radioTeleportation.isSelected()) {
 				ihmTournoi.lancePotionTeleportation(nom, position);
+				
+			} else if(radioMonstre.isSelected()) {
+				ihmTournoi.lanceMonstre(nom, position);
 			}
 		} else {
 			afficheMessageErreur(erreurMessage);
