@@ -157,6 +157,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 		
 		// reperere le debut de la partie dans le temps
 		long derniereReduction = System.currentTimeMillis();
+		int  interv = 0;
 		
 		while(!partieFinie) {
 			// moment de debut du tour
@@ -223,7 +224,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 				// reinit le timer
 				derniereReduction = System.currentTimeMillis();
 				logger.info("2 min depasse");
-				reduireArene();
+				reduireAgrandirPseudoSinus(interv ++);
 			}
 			verifPersoBornes(personnages);
 			supprimePotionsHorsBornes(potions);
@@ -1106,10 +1107,24 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	/**
 	 * Reduit la taille de la zone jouable.
 	 */
-	public void reduireArene() {
+	private void reduireArene() {
 		if (this.getOffset() * 2 < Constantes.MINIMUM_ARENE)
 		{
 		 	Calculs.setOffset(Calculs.getOffset() + 5);
+		}
+	}
+	
+	/**
+	 * Fonction pour faire jolie dans une arène illimitée
+	 * @param intervalle
+	 */
+	private void reduireAgrandirPseudoSinus(int intervalle) {
+		// si on est dans les 5 dernier intervalles : augmenter
+		if ((intervalle % 10) >= 5) {
+			Calculs.setOffset(Calculs.getOffset() - 5);
+		}
+		else {
+			Calculs.setOffset(Calculs.getOffset() + 5);
 		}
 	}
 	
@@ -1154,8 +1169,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	 *  vérifie que chaque potion est dans l'arène JOUABLE
 	 * @param lspotion liste des potions
 	 */
-	private void supprimePotionsHorsBornes(Hashtable<Integer, VuePotion> lspotion)
-	{
+	private void supprimePotionsHorsBornes(Hashtable<Integer, VuePotion> lspotion) {
 		VuePotion p = null;
 		Set<Entry<Integer, VuePotion>> sentry = lspotion.entrySet();
 		Iterator<Map.Entry<Integer, VuePotion>> it = sentry.iterator();
