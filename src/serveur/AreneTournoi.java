@@ -113,25 +113,27 @@ public class AreneTournoi extends Arene {
 			
 			
 
-		}else{
-				
-			if(numeroPersonnage < 10){
-				if(partieCommencee && !(personnage instanceof Monstre)) {
-					// refus si la partie a commence
+		} else {
+			if(!(personnage instanceof Monstre)) { // les monstres peuvent etre envoyes tout le temps
+				if(numeroPersonnage < 10){
+					if(partieCommencee) {
+						// refus si la partie a commence
+						res = false;
+						
+						logger.info(Constantes.nomClasse(this), 
+								"Demande de connexion refusee (partie deja commencee) (" + adr + ")");
+					} else {
+						position = lstCoord.get(numeroPersonnage);
+						numeroPersonnage += 1;
+						res = super.connecte(refRMI, ipConsole, personnage, nbTours, position);
+					}
+				} else {
 					res = false;
 					
-					logger.info(Constantes.nomClasse(this), 
-							"Demande de connexion refusee (partie deja commencee) (" + adr + ")");
-				} else {
-					position = lstCoord.get(numeroPersonnage);
-					numeroPersonnage += 1;
-					res = super.connecte(refRMI, ipConsole, personnage, nbTours, position);
+					logger.info(Constantes.nomClasse(this),"Demande de connexion refusee (nombre de joueurs = 10) (" + adr + ")");
 				}
-			}else{
-				// refus si la partie a commence
-				res = false;
-				
-				logger.info(Constantes.nomClasse(this),"Demande de connexion refusee (nombre de jouers = 10) (" + adr + ")");
+			} else {
+				res = super.connecte(refRMI, ipConsole, personnage, nbTours, position);
 			}
 		
 			
