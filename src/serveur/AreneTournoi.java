@@ -235,7 +235,23 @@ public class AreneTournoi extends Arene {
 		super.verifierPartieFinie();
 		
 		// la partie est aussi terminee s'il n'y a qu'un seul personnage
-		partieFinie = partieFinie || personnages.size() <= 1;
+		partieFinie = partieFinie || compterPersonnages() <= 1;
+	}
+	
+	/**
+	 * Compte le nombre de personnages restants (pas les monstres). 
+	 * @return
+	 */
+	private int compterPersonnages() {
+		int cpt = 0;
+		
+		for(VuePersonnage vp : personnages.values()) {
+			if(!(vp.getElement() instanceof Monstre)) {
+				cpt++;
+			}
+		}
+		
+		return cpt;
 	}
 	
 	@Override
