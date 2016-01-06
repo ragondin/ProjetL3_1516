@@ -15,6 +15,6 @@ public class PotionTP extends Potion {
 	 * @param groupe groupe d'etudiants de la potion
 	 */
 	public PotionTP(String nom, String groupe) {
-		super(nom, groupe, Caracteristique.mapCaracteristiquesDefaut()); // peu importe les caracteristiques
+		super(nom, groupe, Caracteristique.mapCaracteristiquesNul()); 
 	}
 }

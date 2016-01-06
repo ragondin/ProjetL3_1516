@@ -179,6 +179,7 @@ public class AreneTournoi extends Arene {
 		if (motDePasse.equals(motDePasse)) {
 			int refRMI = alloueRefRMI();
 			VuePotion vuePotion = new VuePotion(potion, position, refRMI);
+			vuePotion.setPhrase("Caracteristiques !");
 			
 			// ajout a la liste
 			potions.put(refRMI, vuePotion);
@@ -196,6 +197,7 @@ public class AreneTournoi extends Arene {
 		if (motDePasse.equals(motDePasse)) {
 			int refRMI = alloueRefRMI();
 			VuePotion vuePotion = new VuePotion(potion, position, refRMI);
+			vuePotion.setPhrase("Teleportation !");
 			
 			// ajout a la liste
 			potions.put(refRMI, vuePotion);
