@@ -12,12 +12,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
@@ -42,6 +44,17 @@ public class FenetreCreationPotion extends JFrame {
 	 * TextField permettant d'entrer le nom de la potion.
 	 */
 	private JTextField valueNom;
+	
+	/**
+	 * Bouton radio permettant de creer une potion "standard" 
+	 * (caracteristiques).
+	 */
+	private JRadioButton radioCaract;
+	
+	/**
+	 * Bouton radio permettant de creer une potion de teleportation.
+	 */
+	private JRadioButton radioTeleportation;
 	
 	/**
 	 * Liste des panels de saisie des caracteristiques.
@@ -75,10 +88,10 @@ public class FenetreCreationPotion extends JFrame {
 
 	/**
 	 * Cree une fenetre de creation de potion.
-	 * @param ihm IHM de tournoi
+	 * @param ihmTournoi IHM de tournoi
 	 */
-    public FenetreCreationPotion(IHMTournoi ihmControle) {
-    	this.ihmTournoi = ihmControle;
+    public FenetreCreationPotion(IHMTournoi ihmTournoi) {
+    	this.ihmTournoi = ihmTournoi;
         initComponents();
     }
     
@@ -87,12 +100,12 @@ public class FenetreCreationPotion extends JFrame {
      */
     private void initComponents() {
     	setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        setPreferredSize(new Dimension(460, 425));
+        setPreferredSize(new Dimension(460, 460));
         setResizable(false);
         setAlwaysOnTop(true);
         
         // grid layout de 1 colonne et de nbCaract() + 4 lignes (nom, position, bouton)
-        getContentPane().setLayout(new GridLayout(Caracteristique.nbCaracts() + 3, 1, 0, 0));        
+        getContentPane().setLayout(new GridLayout(Caracteristique.nbCaracts() + 4, 1, 0, 0));        
 
     	// nom
     	JPanel panelNom = new JPanel();
@@ -105,16 +118,55 @@ public class FenetreCreationPotion extends JFrame {
     	panelNom.add(valueNom);
     	
         getContentPane().add(panelNom); 
+        
+        // normale ou teleportation
+        JPanel panelType = new JPanel();
+        
+        ButtonGroup groupeType = new ButtonGroup();
+        radioCaract = new JRadioButton("Caracteristiques");
+        radioTeleportation = new JRadioButton("Teleportation");
+        
+        radioCaract.setSelected(true);
+        
+        groupeType.add(radioCaract);
+        groupeType.add(radioTeleportation);
+        
+        panelType.add(radioCaract);
+        panelType.add(radioTeleportation);
+        
+        getContentPane().add(panelType);
 
         // caracteristiques
         caractPanels = new ArrayList<SaisieCaracteristique>();
         
-        for (Caracteristique c : Caracteristique.values()) {
+        for(Caracteristique c : Caracteristique.values()) {
     		caractPanels.add(new SaisieCaracteristique(c));
         }           
         
-        for (SaisieCaracteristique cPanel : caractPanels)
-            getContentPane().add(cPanel);       
+        for(SaisieCaracteristique cPanel : caractPanels) {
+        	getContentPane().add(cPanel);       
+        }
+        
+        // activer ou desactiver les panels de caracteristiques
+        radioCaract.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for(SaisieCaracteristique cPanel : caractPanels) {
+		        	cPanel.setEnabled(true);     
+		        }
+			}
+		});
+        
+        radioTeleportation.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				for(SaisieCaracteristique cPanel : caractPanels) {
+		        	cPanel.setEnabled(false);     
+		        }
+			}
+		});
 
         // position
         positionPanel = new SaisiePosition();          
@@ -284,6 +336,5 @@ public class FenetreCreationPotion extends JFrame {
     public boolean estClicPourPoserSelectionne() {
     	return clicPourPoser.isSelected();
     }
-    
     
 }
