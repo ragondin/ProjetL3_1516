@@ -1,7 +1,9 @@
 package utilitaires;
 
 import java.awt.Color;
+import java.util.HashMap;
 
+import serveur.element.Caracteristique;
 import serveur.vuelement.VueElement;
 
 /**
@@ -95,6 +97,19 @@ public class Constantes {
 	 * Couleur sur l'IHM pour les personnages qui sont morts.
 	 */
 	public static final Color COULEUR_MORTS = new Color(112, 112, 112);
+	
+	/**
+	 * Limites des quantites donnees par les potions, pour chaque 
+	 * caracteristique.
+	 */
+	public static final HashMap<Caracteristique, Integer> limitePotions; 
+	static {
+		limitePotions = new HashMap<Caracteristique, Integer>();
+		limitePotions.put(Caracteristique.VIE, 20);
+		limitePotions.put(Caracteristique.FORCE, 20);
+		limitePotions.put(Caracteristique.INITIATIVE, 20);
+		limitePotions.put(Caracteristique.DEFENSE, 10);
+	}
 	
 	/**
 	 * Retourne le nom de la classe de l'objet passe en parametre, sous 
