@@ -123,7 +123,7 @@ public class FenetreCreationPotion extends JFrame {
     	// nom
     	JPanel panelNom = new JPanel();
     	
-    	JLabel labelNom = new JLabel("Nom de la potion");
+    	JLabel labelNom = new JLabel("Nom de l'objet");
     	panelNom.add(labelNom);    	
 
     	valueNom = new JTextField("Potion");
@@ -223,7 +223,7 @@ public class FenetreCreationPotion extends JFrame {
         lancePotion = new JButton(); 
         
 
-        clicPourPoser.setText("Cliquer sur l'arene pour poser la potion");
+        clicPourPoser.setText("Cliquer sur l'arene pour poser l'objet");
         clicPourPoser.addItemListener(new ItemListener() {
 			@Override
 			public void itemStateChanged(ItemEvent e) {
@@ -237,7 +237,7 @@ public class FenetreCreationPotion extends JFrame {
         
         panelBouton.add(clicPourPoser);
         
-        lancePotion.setText("Lancer la potion");
+        lancePotion.setText("Lancer l'objet");
         panelBouton.add(lancePotion);
         lancePotion.addActionListener(new ActionListener() {
 			
