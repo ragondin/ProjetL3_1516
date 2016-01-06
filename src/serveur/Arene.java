@@ -563,7 +563,7 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	 * Verifie les conditions de fin de partie.
 	 */
 	protected void verifierPartieFinie() {
-		partieFinie = NB_TOURS < 0 || tour > NB_TOURS;
+		partieFinie = NB_TOURS > 0 || tour > NB_TOURS;
 	}
 	
 	@Override
@@ -1111,12 +1111,14 @@ public class Arene extends UnicastRemoteObject implements IAreneIHM, Runnable {
 	/**
 	 * Reduit la taille de la zone jouable.
 	 */
+	/*
 	private void reduireArene() {
 		if (this.getOffset() * 2 < Constantes.MINIMUM_ARENE)
 		{
 		 	Calculs.setOffset(Calculs.getOffset() + 5);
 		}
 	}
+	*/
 	
 	/**
 	 * Fonction pour faire jolie dans une arène illimitée
