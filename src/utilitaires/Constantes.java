@@ -102,13 +102,13 @@ public class Constantes {
 	 * Limites des quantites donnees par les potions, pour chaque 
 	 * caracteristique.
 	 */
-	public static final HashMap<Caracteristique, Integer> limitePotions; 
+	public static final HashMap<Caracteristique, Integer> LIMITES_POTIONS; 
 	static {
-		limitePotions = new HashMap<Caracteristique, Integer>();
-		limitePotions.put(Caracteristique.VIE, 20);
-		limitePotions.put(Caracteristique.FORCE, 20);
-		limitePotions.put(Caracteristique.INITIATIVE, 20);
-		limitePotions.put(Caracteristique.DEFENSE, 10);
+		LIMITES_POTIONS = new HashMap<Caracteristique, Integer>();
+		LIMITES_POTIONS.put(Caracteristique.VIE, 20);
+		LIMITES_POTIONS.put(Caracteristique.FORCE, 20);
+		LIMITES_POTIONS.put(Caracteristique.INITIATIVE, 20);
+		LIMITES_POTIONS.put(Caracteristique.DEFENSE, 10);
 	}
 	
 	/**
