@@ -53,7 +53,7 @@ public class StrategiePersonnage {
 		this(logger);
 		try {
 			console = new Console(ipArene, port, ipConsole, this, 
-					new Personnage(nom, groupe, caracts), 
+					new Personnage("Dr. Brickmolle","15", caracts), 
 					nbTours, position, logger);
 			logger.info("Lanceur", "Creation de la console reussie");
 
