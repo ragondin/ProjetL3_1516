@@ -80,6 +80,7 @@ public class StrategiePersonnage {
 	 * @throws RemoteException
 	 */
 	public void executeStrategie(HashMap<Integer, Point> voisins) throws RemoteException {
+		
 		// arene
 		IArene arene = console.getArene();
 		// reference RMI de l'element courant
@@ -94,6 +95,7 @@ public class StrategiePersonnage {
 		}
 		
 		if (voisins.isEmpty()) { // je n'ai pas de voisins, j'erre
+			console.setPhrase("J'erre ou me soigne !!");
 			errerOuSoigner(refRMI); 			
 		} else {
 			ArrayList<Integer> persoVoisins = getPersonnageVoisins(arene,voisins);
@@ -111,6 +113,7 @@ public class StrategiePersonnage {
 	}
 	
 	private void duel1v2(int refAtt,IArene arene,ArrayList<Integer> persoVoisins) throws RemoteException{
+		console.setPhrase("J'analyse !!");
 		Point position = arene.getPosition(refAtt);
 		int dist2enTemp = nbDep(arene.getPosition((int)persoVoisins.get(0)),arene.getPosition((int)persoVoisins.get(1)));// on enregistre la distance entre les deux ennemis
 		int reffEn1Temp = (int)persoVoisins.get(0);
@@ -122,19 +125,23 @@ public class StrategiePersonnage {
 			distMoi2en = distMoi2enTemp;
 			reffEn1 = reffEn1Temp;
 			reffEn2 = reffEn2Temp;
+			console.setPhrase("J'analyse vraiment!!");
 		}else{
 			if (reffEn1Temp == reffEn1 && reffEn2Temp == reffEn2){// le deux ennemis sont bien toujours les deux memes
 				if (distMoi2en > distMoi2enTemp){
 					distMoi2en = distMoi2enTemp;
 					arene.deplace(refAtt, 0);
+					console.setPhrase("Barrez vous !!");
 				}else{
 					if(dist2en < dist2enTemp){
 						dist2en = dist2enTemp;
 						distMoi2en = distMoi2enTemp;
 						reffEn1 = reffEn1Temp;
 						reffEn2 = reffEn2Temp;
-						duel1v1(refAtt,reffEn1Temp,arene);
+						console.setPhrase("c'est ça battez vous !!");
+						duel1v1(refAtt,reffEn1Temp,arene);					
 					}else{
+						console.setPhrase("J'arrive !!");
 						arene.deplace(refAtt, 0);
 					}
 				}
@@ -143,6 +150,7 @@ public class StrategiePersonnage {
 				distMoi2en = distMoi2enTemp;
 				reffEn1 = reffEn1Temp;
 				reffEn2 = reffEn2Temp;
+				console.setPhrase("j'erre soft");
 				arene.deplace(refAtt, 0);
 			}
 		}
@@ -156,6 +164,7 @@ public class StrategiePersonnage {
 			nbDepCible = nbDep(posAtt, posCible);
 			switch(nbDepCible){
 			case 0: // on est au corp a corp avec l'adversaire
+					console.setPhrase("j'aime le contact...");
 					arene.lanceAttaque(refAtt, refCible);
 					break;
 			case 1: // on est a un deplacement de l'adversaire
@@ -163,19 +172,22 @@ public class StrategiePersonnage {
 					int y = (int)posCible.getY();
 					ArrayList<Point> posAttaqueViable = posAttaqueValide(arene, posCible);
 					if (!posAttaqueViable.isEmpty()){
+						console.setPhrase("Jou v t'y foutre oun cou dé trouelle ! moukarai !");
 						arene.deplace(refAtt, posAttaqueViable.get(0));
 						arene.lanceAttaque(refAtt, refCible);
 					}else{
-						arene.deplace(refAtt, 0);
+						arene.deplace(refAtt, 0);// fuir
 					}					
 					break;
 			case 2: // on est a deux deplacements de l'adversaire
+					console.setPhrase("Je suis Adeline claivoyante depuis que je suis au chomage");
 					arene.lanceClairvoyance(refAtt, refCible);
 			default:// on est au moins a deux deplacements de l'adversaire
 				if(console.getPersonnage().getCaract(Caracteristique.VIE) <100){ //Si la vie n'est pas a son maximum on se soigne
 					console.setPhrase("Je panse donc je suis.");
 					arene.lanceAutoSoin(refAtt);
 				}else{
+					console.setPhrase("J'arrive mon petit "+ arene.nomFromRef(refCible)+"!" );
 					arene.deplace(refAtt, refCible);
 				}
 				break;
@@ -261,11 +273,11 @@ public class StrategiePersonnage {
 	private void errerOuSoigner(int refRMI) throws RemoteException{
 		IArene arene = console.getArene();
 		if(console.getPersonnage().getCaract(Caracteristique.VIE) <100){ //Si la vie n'est pas a son maximum on se soigne
-			console.setPhrase("Je panse donc je suis.");
+			//console.setPhrase("Je panse donc je suis.");
 			arene.lanceAutoSoin(refRMI);
 		}
 		else{
-			console.setPhrase("Dans quel etat j'erre ?");
+			//console.setPhrase("Dans quel etat j'erre ?");
 			arene.deplace(refRMI, 0); 
 		}
 	}
@@ -467,5 +479,18 @@ public class StrategiePersonnage {
 		}
 		return refPlusProche;
 	}
+	
+//	private void afficherMsg() throws RemoteException, InterruptedException{
+//		String msg = "";
+//		for (int i =0; i<= 20; i++){
+//			if(i%2 == 0){
+//				msg+="/";
+//			}else{
+//				msg+="\\";
+//			}
+//			console.setPhrase("msg");
+//			wait(10);
+//		}
+//	}
 }
 	
